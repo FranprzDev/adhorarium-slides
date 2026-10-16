@@ -71,7 +71,7 @@ export const slides: readonly Slide[] = [
     id: "problema",
     title: "El problema",
     mode: BackgroundMode.Light,
-    seconds: 80,
+    seconds: 70,
     notes: [
       "Cada estudiante de ingeniería avanza por un plan con un régimen de correlatividades: para cursar una materia necesita otras regularizadas o aprobadas, y para rendir el final necesita las correlativas aprobadas.",
       "A eso se suma que en la Regional Tucumán los finales se organizan en tres mesas, Mesa I, II y III, y que armar el cuatrimestre implica elegir comisiones sin que los horarios se pisen.",
@@ -111,30 +111,30 @@ export const slides: readonly Slide[] = [
     id: "objetivo",
     title: "Objetivo y alcance",
     mode: BackgroundMode.Light,
-    seconds: 80,
+    seconds: 70,
     notes: [
       "El objetivo general fue desarrollar una aplicación web, usable desde computadora y celular, para que los estudiantes de ingeniería de FRT consulten el plan de correlativas, registren su situación académica, planifiquen qué cursar y en qué mesa rendir, y armen su horario sin superposiciones, con datos que mantiene un administrador.",
-      "En el alcance entran la consulta pública del plan, el registro y el inicio de sesión, los estados y notas, las mesas, el perfil con GPA, el panel de administración, el gestor de horarios y el asistente.",
-      "Quedan afuera, a propósito, la inscripción a cursado o exámenes, que es del sistema oficial; las fechas de mesas; la integración con SYSACAD; la carga de los horarios oficiales; generar un horario completo automáticamente; y la recuperación de contraseña.",
+      "En el alcance entran la consulta pública del plan, el ciclo completo de la cuenta, los estados y notas, cargados a mano o importados desde SYSACAD, las mesas, el perfil con GPA, el gestor de horarios con los horarios oficiales de Sistemas, el asistente, el panel de administración con importación de comisiones y el monitoreo sin costo.",
+      "Quedan afuera, a propósito, la inscripción a cursado o exámenes, que es del sistema oficial; las fechas de mesas; una conexión directa con SYSACAD, porque AdHorarium nunca recibe las credenciales del estudiante; los horarios de las otras carreras; generar un horario completo automáticamente; y publicar la extensión en las tiendas.",
     ],
     html: `
-      ${header("02", "Objetivo y alcance", "Un solo lugar para planificar el avance en la carrera")}
+      ${header("02", "Objetivo y alcance", "Un solo lugar para planificar la carrera")}
       <blockquote class="goal reveal">Aplicación web, accesible desde computadoras y móviles, para que los estudiantes de ingeniería de la UTN-FRT consulten su plan de correlativas, registren su situación académica, planifiquen qué cursar y en qué mesa rendir, y armen su horario sin superposiciones, con datos administrables por un responsable autorizado.</blockquote>
       <div class="scope">
         <section class="scope-col scope-in reveal">
           <h3>Incluido</h3>
           <ul class="chips">
-            <li>Plan de correlativas público</li><li>Registro e inicio de sesión</li><li>Estados y notas</li>
-            <li>Dependencias por materia</li><li>Buscador de mesas</li><li>Perfil con promedio y GPA</li>
-            <li>Gestor de horarios</li><li>Exportar · compartir · importar</li><li>Asistente de horarios</li>
-            <li>Panel de administración</li><li>Modo demostración</li>
+            <li>Plan de correlativas público</li><li>Planes 2023 y 2008 · electivas</li><li>Cuenta: registro, recuperación, confirmación, baja</li>
+            <li>Estados y notas</li><li>Importar desde SYSACAD</li><li>Buscador de mesas</li><li>Perfil con promedio y GPA</li>
+            <li>Horarios oficiales de Sistemas</li><li>Exportar · compartir · importar</li><li>Asistente de horarios</li>
+            <li>Administración e importación de comisiones</li><li>Monitoreo sin costo</li>
           </ul>
         </section>
         <section class="scope-col scope-out reveal">
           <h3>Excluido</h3>
           <ul class="chips">
-            <li>Inscripción a cursado y exámenes</li><li>Fechas de las mesas</li><li>Integración con SYSACAD</li>
-            <li>Carga de horarios oficiales</li><li>Horario completo automático</li><li>Recuperación de contraseña</li>
+            <li>Inscripción a cursado y exámenes</li><li>Fechas de las mesas</li><li>Conexión directa con SYSACAD</li>
+            <li>Horarios oficiales de otras carreras</li><li>Horario completo automático</li><li>Extensión en las tiendas</li>
           </ul>
         </section>
       </div>`,
@@ -145,56 +145,58 @@ export const slides: readonly Slide[] = [
     mode: BackgroundMode.Light,
     seconds: 45,
     notes: [
-      "Hay tres actores principales. El visitante, sin cuenta, consulta el plan público, explora el modo demostración y puede ver un horario compartido. El estudiante registra su situación, consulta mesas y perfil, arma su horario y usa el asistente. El administrador mantiene materias, correlativas y comisiones.",
-      "Como actores secundarios están Google, para el inicio de sesión alternativo, y Vercel AI Gateway, que da acceso al modelo de lenguaje. En total el modelo tiene veinte casos de uso.",
+      "Hay tres actores principales. El visitante, sin cuenta, consulta el plan público, explora el modo demostración, puede ver un horario compartido y recuperar su contraseña. El estudiante registra su situación, también importándola desde SYSACAD, consulta mesas y perfil, arma su horario, usa el asistente y gestiona su cuenta. El administrador mantiene materias, correlativas y comisiones, y puede importar los horarios desde un archivo.",
+      "Como actores secundarios están Google, para el inicio de sesión alternativo; Vercel AI Gateway, que da acceso al modelo de lenguaje; SYSACAD, cuya página la abre el propio estudiante; y Brevo, el servicio de correo. En total el modelo tiene veinticinco casos de uso.",
     ],
     html: `
-      ${header("03", "Usuarios y actores", "Tres roles, veinte casos de uso")}
+      ${header("03", "Usuarios y actores", "Tres roles, veinticinco casos de uso")}
       <div class="actors">
         <article class="actor reveal">
           <p class="actor-tag">Visitante</p>
           <h3>Sin cuenta</h3>
-          <ul><li>Plan de correlativas público</li><li>Modo demostración</li><li>Ver y exportar un horario compartido</li><li>Registrarse e iniciar sesión</li></ul>
-          <p class="actor-cu">CU01 · CU02 · CU03 · CU16 · CU17</p>
+          <ul><li>Plan de correlativas público</li><li>Modo demostración</li><li>Ver y exportar un horario compartido</li><li>Registrarse, ingresar y recuperar la contraseña</li></ul>
+          <p class="actor-cu"><span class="nowrap">CU01 – CU03</span> · CU16 · CU17 · CU21</p>
         </article>
         <article class="actor actor-main reveal">
           <p class="actor-tag">Estudiante · rol student</p>
           <h3>Planifica su carrera</h3>
-          <ul><li>Registra estados y notas</li><li>Consulta mesas y su perfil</li><li>Arma, exporta, comparte e importa horarios</li><li>Usa el asistente de horarios</li></ul>
-          <p class="actor-cu">CU04 – CU11 · CU15 · CU17 – CU19</p>
+          <ul><li>Registra estados y notas o los trae de SYSACAD</li><li>Consulta mesas y su perfil</li><li>Arma, exporta, comparte e importa horarios</li><li>Usa el asistente; confirma o elimina su cuenta</li></ul>
+          <p class="actor-cu"><span class="nowrap">CU04 – CU11</span> · CU15 · <span class="nowrap">CU17 – CU19</span> · <span class="nowrap">CU22 – CU24</span></p>
         </article>
         <article class="actor reveal">
           <p class="actor-tag">Administrador · rol admin</p>
           <h3>Mantiene los datos</h3>
-          <ul><li>Materias de cada carrera</li><li>Correlativas para cursar y para rendir</li><li>Comisiones con días, horas y aulas</li></ul>
-          <p class="actor-cu">CU11 – CU14 · CU20</p>
+          <ul><li>Materias de cada carrera</li><li>Correlativas para cursar y para rendir</li><li>Comisiones con días, horas y aulas</li><li>Importación de comisiones</li></ul>
+          <p class="actor-cu"><span class="nowrap">CU11 – CU14</span> · CU20 · CU23 · CU25</p>
         </article>
       </div>
       <div class="secondary reveal">
         <span class="secondary-label">Actores secundarios</span>
-        <span class="pill">Google · OAuth 2.0 (ingreso alternativo)</span>
-        <span class="pill">Vercel AI Gateway · modelo de lenguaje</span>
-        <span class="pill pill-brass">CU01 – CU20</span>
+        <span class="pill">Google · OAuth 2.0</span>
+        <span class="pill">Vercel AI Gateway</span>
+        <span class="pill">SYSACAD · vía el navegador</span>
+        <span class="pill">Brevo · correo</span>
+        <span class="pill pill-brass">CU01 – CU25</span>
       </div>`,
   },
   {
     id: "demo-plan",
     title: "Plan de correlativas y gestor de materias",
     mode: BackgroundMode.Light,
-    seconds: 100,
+    seconds: 90,
     notes: [
-      "Empiezo por el corazón del sistema. El plan de correlativas se muestra por niveles, y se puede consultar sin registrarse, eligiendo la carrera.",
-      "Al tocar una materia se ve qué necesita para cursarse y qué materias habilita. En la captura, Paradigmas de Programación: necesita Lógica y Algoritmos y habilita Desarrollo de Software, Diseño de Sistemas e Ingeniería y Calidad de Software.",
+      "Empiezo por el corazón del sistema. El plan de correlativas se muestra por niveles, y se puede consultar sin registrarse, eligiendo la carrera y el plan.",
+      "Al tocar una materia se ve qué necesita para cursarse y qué materias habilita. En la captura, Paradigmas de Programación: necesita Lógica y Estructuras Discretas y Algoritmos y Estructuras de Datos, y habilita, entre otras, Desarrollo de Software, Diseño de Sistemas de Información, el Seminario Integrador y electivas, que llevan su etiqueta.",
       "En el gestor de materias el estudiante marca cada materia como no cursada, cursando, regular o promocionada, y carga la nota de las promocionadas. El cambio se ve al instante, se confirma con un aviso y, si el servidor lo rechaza, se revierte.",
-      "Hay cinco carreras cargadas: Sistemas, Electrónica, Civil, Mecánica y Energía Eléctrica.",
+      "Hay seis planes cargados de cinco carreras: Sistemas en sus planes 2023 y 2008, con sus electivas y el Seminario Integrador, Electrónica, Civil, Mecánica y Energía Eléctrica.",
     ],
     html: `
       ${header("04", "Funcionalidades · Plan y materias", "El plan de estudios como un grafo de correlativas")}
       <div class="demo">
         <div class="demo-text">
           ${bullets([
-            "<strong>Plan por niveles</strong>, público y sin registrarse, para las 5 carreras cargadas.",
-            "<strong>Dependencias</strong>: al tocar una materia, qué necesita para cursarse y qué habilita.",
+            "<strong>Plan por niveles</strong>, público y sin registrarse: 6 planes de 5 carreras, con Sistemas <strong>2023 y 2008</strong>.",
+            "<strong>Dependencias</strong>: al tocar una materia, qué necesita para cursarse y qué habilita; las <strong>electivas</strong> llevan su etiqueta.",
             "<strong>Estados</strong>: no cursada, cursando, regular o promocionada, con la nota final de las promocionadas.",
             "Cambio inmediato con aviso; <strong>se revierte</strong> si el servidor lo rechaza.",
           ])}
@@ -206,17 +208,50 @@ export const slides: readonly Slide[] = [
       </div>`,
   },
   {
+    id: "demo-sysacad",
+    title: "Importar desde SYSACAD",
+    mode: BackgroundMode.Light,
+    seconds: 75,
+    notes: [
+      "Para reducir la carga inicial de datos, el estudiante puede traer su estado académico desde SYSACAD en lugar de cargar materia por materia.",
+      "Entra a SYSACAD con su propio usuario y abre «Estado académico». Una extensión para Chrome, Edge y Firefox, sin permisos adicionales, detecta la tabla y agrega el botón «Llevar a AdHorarium». Los datos viajan en el fragmento de la URL, que el navegador no transmite al servidor en la solicitud: solo lo lee la página de AdHorarium, después de iniciar sesión. AdHorarium nunca conoce su usuario ni su contraseña. Sin la extensión, puede copiar la tabla y pegarla.",
+      "Antes de guardar, una vista previa muestra qué materias son nuevas, cuáles avanzan y cuáles reciben nota, y lista para revisar las filas ambiguas o de otro plan, como el curso de ingreso. Cada fila se vincula por nombre exacto, por prefijo o por similitud. El modo Combinar nunca baja un estado; Reemplazar deja que SYSACAD mande, sin borrar una nota existente.",
+      "Las capturas usan un estado académico ficticio, «Alumno, Ejemplo», con notas, tomos y folios inventados, que forma parte de las pruebas del repositorio. No se guardan el legajo, el tomo ni el folio.",
+    ],
+    html: `
+      ${header("05", "Funcionalidades · Importar desde SYSACAD", "Del estado académico al plan, sin cargar a mano")}
+      <div class="demo">
+        <div class="demo-text">
+          <ol class="flow reveal">
+            <li><span>1</span><p>El estudiante abre <strong>«Estado académico»</strong> con su propia sesión</p></li>
+            <li><span>2</span><p>La extensión agrega <strong>«Llevar a AdHorarium»</strong>, o pega la tabla</p></li>
+            <li><span>3</span><p><strong>Vista previa</strong>: nuevas, avanzan, con nota y para revisar</p></li>
+          </ol>
+          ${bullets([
+            "Extensión Manifest V3 para Chrome, Edge y Firefox, <strong>sin permisos</strong>; nunca recibe credenciales.",
+            "Vínculo por nombre exacto, prefijo o similitud; filas de <strong>otro plan</strong> a revisar.",
+            "<strong>Combinar</strong> nunca baja un estado; <strong>Reemplazar</strong> no borra notas.",
+          ], "bullets-compact")}
+        </div>
+        <div class="demo-media stack">
+          ${shot("sysacad-vista-previa", "/importar/sysacad", "Vista previa de la importación desde SYSACAD con materias nuevas, que avanzan y para revisar", "stack-back reveal")}
+          ${card("sysacad-extension", "Barra «Llevar a AdHorarium» de la extensión sobre un Estado académico de ejemplo", "stack-front stack-zoom reveal")}
+        </div>
+      </div>`,
+  },
+  {
     id: "demo-horarios",
     title: "Gestor de horarios",
     mode: BackgroundMode.Light,
-    seconds: 110,
+    seconds: 100,
     notes: [
-      "El gestor de horarios es la funcionalidad más nueva. El estudiante agrega una materia y elige una de sus comisiones del catálogo; si la materia no tiene comisiones cargadas, puede cargar los días y horas a mano.",
-      "El sistema detecta superposiciones: dos franjas chocan solo si son el mismo día y sus rangos se cruzan. En la captura, una comisión de Paradigmas se pisa con Análisis Matemático II: el aviso arriba, los bloques en rojo y lado a lado en la grilla.",
+      "En el gestor de horarios el estudiante agrega una materia y elige una de sus comisiones del catálogo; si la materia no tiene comisiones cargadas, puede cargar los días y horas a mano.",
+      "El catálogo ya tiene los horarios oficiales del segundo cuatrimestre de 2026 del Departamento de Sistemas: 203 comisiones de los planes 2023 y 2008, cada una con su fuente y su fecha de actualización.",
+      "El sistema detecta superposiciones: dos franjas chocan solo si son el mismo día y sus rangos se cruzan. En la captura, la comisión 2K02 de Paradigmas se pisa el lunes con Análisis Matemático II: el aviso arriba, los bloques en rojo y lado a lado en la grilla.",
       "En el panel lateral cada comisión avisa antes de elegirla si se superpone con otra materia, y con un clic se cambia por la que no choca. Esta lógica es una función pura, cubierta por pruebas unitarias.",
     ],
     html: `
-      ${header("05", "Funcionalidades · Horarios", "Armar el cuatrimestre sin superposiciones")}
+      ${header("06", "Funcionalidades · Horarios", "Armar el cuatrimestre sin superposiciones")}
       <div class="demo demo-wide">
         <div class="demo-media">
           ${shot("horarios-superposicion", "/dashboard/horarios", "Gestor de horarios con una superposición marcada en rojo", "reveal")}
@@ -224,7 +259,7 @@ export const slides: readonly Slide[] = [
         <div class="demo-side">
           ${card("horarios-comisiones", "Selector de comisiones con aviso de superposición", "reveal side-card")}
           ${bullets([
-            "Comisión del catálogo o <strong>carga manual</strong> de días y horas.",
+            "<strong>Horarios oficiales</strong> 2.º cuatr. 2026 de Sistemas, o carga manual.",
             "Choque solo si es <strong>el mismo día</strong> y los rangos se cruzan.",
             "Conflictos en rojo, <strong>lado a lado</strong> en la grilla.",
           ], "bullets-compact")}
@@ -242,7 +277,7 @@ export const slides: readonly Slide[] = [
       "Otro estudiante lo abre y lo importa: puede combinarlo con el suyo o reemplazarlo. Se omiten materias de otras carreras y comisiones eliminadas.",
     ],
     html: `
-      ${header("06", "Funcionalidades · Exportar y compartir", "Del horario propio al de todo el grupo")}
+      ${header("07", "Funcionalidades · Exportar y compartir", "Del horario propio al de todo el grupo")}
       <div class="trio">
         <article class="trio-item reveal">
           <div class="trio-media trio-paper">${card("horario-ejemplo", "Horario exportado en formato A4 apaisado")}</div>
@@ -265,14 +300,14 @@ export const slides: readonly Slide[] = [
     id: "demo-asistente",
     title: "Asistente de horarios con IA",
     mode: BackgroundMode.Light,
-    seconds: 80,
+    seconds: 70,
     notes: [
-      "El asistente de horarios es un chat de solo consulta. Responde qué materias puedo cursar, qué finales puedo rendir o qué combinación de comisiones no se superpone.",
+      "El asistente de horarios es un chat de solo consulta. Responde qué materias puedo cursar, qué finales puedo rendir o qué combinación de comisiones no se superpone. En la captura, el estudiante pregunta qué comisiones de Física II no chocan con su horario guardado: responde 2K01, 2K02, 2K04, 2K06 y 2K07, y explica por qué 2K03 y 2K05 se superponen.",
       "La decisión de diseño clave: lo que tiene que ser exacto se calcula por código. Las materias habilitadas para cursar o rendir se calculan en el servidor y se le entregan al modelo como listas; el modelo solo lo explica en lenguaje natural.",
       "Usa el AI SDK de Vercel sobre Vercel AI Gateway, con el modelo openai/gpt-4.1-mini configurable por variable de entorno. No tiene herramientas, así que no puede modificar datos, y sus instrucciones le prohíben inventar horarios. Además limita el tamaño de las preguntas y las solicitudes por usuario.",
     ],
     html: `
-      ${header("07", "Funcionalidades · Asistente", "Un modelo de lenguaje anclado en datos del sistema")}
+      ${header("08", "Funcionalidades · Asistente", "Un modelo de lenguaje anclado en datos del sistema")}
       <div class="demo">
         <div class="demo-text">
           <ol class="flow reveal">
@@ -299,23 +334,23 @@ export const slides: readonly Slide[] = [
     seconds: 60,
     notes: [
       "El panel de administración solo lo ve el rol admin; el rol se verifica en el servidor, y un estudiante que entra a /admin termina en Acceso denegado.",
-      "Desde acá se dan de alta, modifican y eliminan materias y correlativas. Cada correlativa indica su propósito, para cursar o para rendir, y su condición, regular o aprobada, y se valida la integridad del plan: misma carrera, sin autorreferencias, sin ciclos y sin requerir materias de un nivel superior.",
-      "También se gestiona el catálogo de comisiones con turno, período y franjas con aula. Al editar una comisión, el cambio se ve en todos los horarios que la usan: en la captura avisa que impacta en dos horarios de estudiantes.",
+      "Desde acá se dan de alta, modifican y eliminan materias y correlativas, con filtro por carrera, búsqueda por nombre o número y paginación. Cada correlativa indica su propósito, para cursar o para rendir, y su condición, regular o aprobada, y se valida la integridad del plan: misma carrera, sin autorreferencias, sin ciclos y sin requerir materias de un nivel superior.",
+      "También se gestiona el catálogo de comisiones. Los horarios de un cuatrimestre se importan de una vez desde un CSV o JSON con una fila por clase: el servidor valida cada fila, detecta superposiciones y filas contradictorias, y muestra una vista previa de comisiones nuevas, con cambios y sin cambios. Repetir la importación no cambia nada y las comisiones existentes conservan su identificador, así que los horarios de los estudiantes siguen apuntando a ellas. Así se cargaron los horarios oficiales.",
     ],
     html: `
-      ${header("08", "Funcionalidades · Administración", "Datos que se corrigen sin desplegar código")}
+      ${header("09", "Funcionalidades · Administración", "Datos que se corrigen sin desplegar código")}
       <div class="demo">
         <div class="demo-text">
           ${bullets([
             "Acceso solo con <strong>rol admin</strong>, verificado en el servidor.",
-            "ABM de materias y correlativas: <strong>propósito</strong> (cursar / rendir) y <strong>condición</strong> (regular / aprobada).",
-            "Integridad del plan: sin autorreferencias, <strong>sin ciclos</strong>, sin requisitos de un nivel superior.",
-            "Comisiones con turno, período y franjas con aula: un cambio se refleja <strong>en todos los horarios</strong>.",
+            "ABM de materias y correlativas: <strong>propósito</strong> (cursar / rendir) y <strong>condición</strong> (regular / aprobada); sin ciclos ni autorreferencias.",
+            "Filtro por carrera, búsqueda por nombre o número y <strong>paginación</strong>.",
+            "<strong>Importar comisiones</strong> desde CSV o JSON con vista previa; repetirla no cambia nada.",
           ])}
         </div>
         <div class="demo-media stack">
           ${shot("admin-panel", "/admin", "Panel de administración con el listado de materias", "stack-back reveal")}
-          ${card("admin-comision-editar", "Edición de una comisión con sus franjas horarias", "stack-front stack-front-card reveal")}
+          ${card("admin-importar-comisiones", "Diálogo «Importar comisiones» con la vista previa de un archivo CSV", "stack-front stack-front-wide reveal")}
         </div>
       </div>`,
   },
@@ -323,15 +358,15 @@ export const slides: readonly Slide[] = [
     id: "arquitectura",
     title: "Arquitectura y stack",
     mode: BackgroundMode.Light,
-    seconds: 110,
+    seconds: 100,
     notes: [
       "La arquitectura es cliente-servidor en capas, implementada como un monolito Next.js desplegado en Vercel: un solo proyecto y un solo despliegue.",
-      "En el navegador, React 19 con Tailwind y shadcn/ui; la exportación a PDF y PNG se genera ahí. En el servidor, Next.js 15 con App Router: Server Components, Server Actions y Route Handlers. Auth.js resuelve la sesión y antes de cualquier operación se verifica el rol.",
-      "La lógica de negocio vive en funciones puras de TypeScript: correlativas, integridad de planes, GPA, superposiciones e importación. Por eso se prueban de forma unitaria.",
-      "Los datos están en Neon PostgreSQL, en AWS us-east-1, y solo el servidor se conecta, con Drizzle ORM. El asistente llega al modelo a través de Vercel AI Gateway, autenticado con el token OIDC del despliegue, sin claves guardadas. GitHub Actions verifica cada pull request y cada integración a main se despliega sola.",
+      "En el navegador, React 19 con Tailwind y shadcn/ui; la exportación a PDF y PNG se genera ahí. Aparte, la extensión del navegador corre solo en la página de SYSACAD y comparte el mismo lector de la tabla que la página web. En el servidor, Next.js 15 con App Router: Server Components, Server Actions y Route Handlers. Auth.js resuelve la sesión y antes de cualquier operación se verifica el rol.",
+      "La lógica de negocio vive en funciones puras de TypeScript: correlativas, integridad de planes, GPA, superposiciones, importaciones y el lector de SYSACAD. Por eso se prueban de forma unitaria.",
+      "Los datos están en Neon PostgreSQL, en AWS us-east-1, y solo el servidor se conecta, con Drizzle ORM. El asistente llega al modelo a través de Vercel AI Gateway, autenticado con el token OIDC del despliegue. Los correos de la cuenta salen por Brevo a través de un proveedor intercambiable, y el monitoreo usa Web Analytics y Speed Insights de Vercel, sin costo. GitHub Actions verifica cada pull request y cada integración a main se despliega sola.",
     ],
     html: `
-      ${header("09", "Arquitectura y stack", "Cliente-servidor en capas sobre un monolito Next.js")}
+      ${header("10", "Arquitectura y stack", "Cliente-servidor en capas sobre un monolito Next.js")}
       <div class="arch reveal">
         <div class="arch-col">
           <p class="arch-label">Navegador</p>
@@ -340,6 +375,7 @@ export const slides: readonly Slide[] = [
             <p>React 19 · Tailwind CSS · shadcn/ui · Zustand</p>
             <p class="arch-sub">Exportación PDF (jsPDF) y PNG (canvas)</p>
           </div>
+          <div class="arch-box"><h4>Extensión para SYSACAD</h4><p>Manifest V3 · Chrome, Edge, Firefox · sin permisos</p></div>
           <div class="arch-box arch-ci"><h4>Dispositivo del usuario</h4><p>Computadora, tablet o teléfono con Chrome, Firefox, Edge o Safari</p></div>
         </div>
         <div class="arch-arrow">HTTPS</div>
@@ -353,7 +389,7 @@ export const slides: readonly Slide[] = [
             <div class="arch-box"><h4>Auth.js v5</h4><p>Correo + contraseña (bcrypt) · Google · JWT</p></div>
             <div class="arch-box"><h4>Autorización</h4><p>Rol student / admin en el servidor</p></div>
           </div>
-          <div class="arch-box arch-brass"><h4>Dominio · funciones puras TypeScript</h4><p>Correlativas · integridad · GPA · superposiciones · importación · contexto del asistente</p></div>
+          <div class="arch-box arch-brass"><h4>Dominio · funciones puras TypeScript</h4><p>Correlativas · integridad · GPA · superposiciones · importaciones · lector de SYSACAD · contexto del asistente</p></div>
           <div class="arch-box"><h4>Acceso a datos · Drizzle ORM</h4><p>Driver serverless de Neon</p></div>
         </div>
         <div class="arch-arrow">TLS</div>
@@ -362,6 +398,7 @@ export const slides: readonly Slide[] = [
           <div class="arch-box"><h4>Neon PostgreSQL</h4><p>Serverless · AWS us-east-1</p></div>
           <div class="arch-box"><h4>Vercel AI Gateway</h4><p>AI SDK · <code>openai/gpt-4.1-mini</code> · token OIDC</p></div>
           <div class="arch-box"><h4>Google Identity</h4><p>OAuth 2.0 / OpenID Connect</p></div>
+          <div class="arch-box"><h4>Brevo · Vercel Analytics</h4><p>Correos de la cuenta · uso, rendimiento y errores</p></div>
           <div class="arch-box arch-ci"><h4>GitHub Actions → Vercel</h4><p>CI en cada PR · despliegue continuo</p></div>
         </div>
       </div>`,
@@ -372,24 +409,25 @@ export const slides: readonly Slide[] = [
     mode: BackgroundMode.Light,
     seconds: 50,
     notes: [
-      "El modelo de datos está en PostgreSQL y se define como código con Drizzle; evoluciona con migraciones versionadas: la 0000 crea el esquema, la 0001 agrega el hash de contraseña y la 0002 las tablas de horarios. Las tres están aplicadas en producción.",
-      "Hay cuatro grupos: el académico, con carreras, materias, correlativas con propósito y condición, y mesas; los usuarios con el modelo de Auth.js ampliado con rol, carrera y hash; los estados de cada materia por usuario; y los horarios: comisiones con sus franjas en jsonb, las entradas del horario de cada estudiante y los horarios compartidos.",
+      "El modelo de datos está en PostgreSQL y se define como código con Drizzle; evoluciona con seis migraciones versionadas, todas aplicadas en producción: el esquema inicial, el hash de contraseña, las tablas de horarios, la fuente de las comisiones, los tokens de un solo uso con la tabla de salida de correos y la confirmación del correo. El plan 2008, las electivas y el Seminario Integrador no necesitaron cambios de esquema: un plan distinto es otra carrera, ISI-2008.",
+      "Hay cuatro grupos: el académico, con carreras, materias, correlativas con propósito y condición, y mesas; los usuarios con el modelo de Auth.js ampliado con rol, carrera, hash y fecha de confirmación del correo, más los tokens; los estados de cada materia por usuario; y los horarios: comisiones con sus franjas en jsonb y su fuente, las entradas del horario de cada estudiante y los horarios compartidos.",
     ],
     html: `
-      ${header("10", "Modelo de datos", "PostgreSQL definido como código con Drizzle")}
+      ${header("11", "Modelo de datos", "PostgreSQL definido como código con Drizzle")}
       <div class="erd">
         <section class="erd-group reveal">
           <h3>Académico</h3>
-          <div class="table-card"><b>careers</b><span>código · nombre · plan</span></div>
+          <div class="table-card"><b>careers</b><span>código (ISI, ISI-2008, …) · nombre · plan</span></div>
           <div class="table-card"><b>subjects</b><span>número · nivel 1–6 · electiva · ciencias básicas · mesa</span></div>
           <div class="table-card"><b>subject_correlatives</b><span>propósito cursar / rendir · condición regulares / aprobadas</span></div>
           <div class="table-card"><b>exam_tables</b><span>Mesa I · Mesa II · Mesa III</span></div>
         </section>
         <section class="erd-group reveal">
           <h3>Usuarios · Auth.js</h3>
-          <div class="table-card"><b>users</b><span>rol student / admin · carrera · password_hash (bcrypt)</span></div>
+          <div class="table-card"><b>users</b><span>rol · carrera · password_hash (bcrypt) · email_verified</span></div>
           <div class="table-card"><b>accounts</b><span>cuentas OAuth vinculadas (Google)</span></div>
-          <div class="table-card table-muted"><b>sessions · verification_tokens</b><span>requeridas por el adaptador, sin uso (JWT)</span></div>
+          <div class="table-card"><b>user_tokens</b><span>recuperación o confirmación · hash SHA-256 · vencimiento</span></div>
+          <div class="table-card table-muted"><b>sessions · verification_tokens · mail_outbox</b><span>del adaptador, sin uso (JWT) · salida de correos solo para pruebas</span></div>
         </section>
         <section class="erd-group reveal">
           <h3>Situación académica</h3>
@@ -397,32 +435,32 @@ export const slides: readonly Slide[] = [
         </section>
         <section class="erd-group reveal">
           <h3>Horarios</h3>
-          <div class="table-card"><b>commissions</b><span>turno · período · franjas en jsonb (día, inicio, fin, aula)</span></div>
+          <div class="table-card"><b>commissions</b><span>turno · período · franjas en jsonb&nbsp;· cuatrimestre y fuente</span></div>
           <div class="table-card"><b>schedule_entries</b><span>commission o custom · restricción check</span></div>
           <div class="table-card"><b>schedule_shares</b><span>id aleatorio de 22 caracteres · instantánea jsonb</span></div>
         </section>
       </div>
-      <p class="migrations reveal"><span>Migraciones</span><code>0000</code> esquema inicial <code>0001_users_password_hash</code> <code>0002_schedule_builder</code> · las tres aplicadas en producción</p>`,
+      <p class="migrations reveal"><span>Migraciones</span><code>0000</code> – <code>0005</code> esquema · contraseña · horarios · fuente de comisiones · tokens · confirmación del correo · las seis aplicadas en producción</p>`,
   },
   {
     id: "seguridad",
     title: "Seguridad",
     mode: BackgroundMode.Light,
-    seconds: 70,
+    seconds: 60,
     notes: [
-      "En seguridad, las contraseñas se guardan solo como hash bcrypt con factor 12; se exige un mínimo de 10 caracteres con letras y números y un máximo de 72 bytes, que es el límite de bcrypt. Seguimos la guía de OWASP.",
-      "Para evitar fuerza bruta hay límites de intentos: 8 por correo y 30 por cliente cada 15 minutos, y límites de registros. El mensaje de error es siempre el mismo y el tiempo de respuesta también, para no revelar si una cuenta existe.",
-      "La sesión es un JWT en una cookie HttpOnly firmada y cifrada. La base nunca está expuesta al navegador y el rol se verifica en el servidor; el registro público solo crea estudiantes.",
-      "Además, al retomar el proyecto se removieron credenciales que estaban versionadas y se actualizó Next.js a 15.5.27 por la CVE-2025-66478, que bloqueaba los despliegues.",
+      "En seguridad, las contraseñas se guardan solo como hash bcrypt con factor 12; se exige un mínimo de 10 caracteres con letras y números y un máximo de 72 bytes, que es el límite de bcrypt. Seguimos la guía de OWASP. Para evitar fuerza bruta hay límites de intentos, y el mensaje y el tiempo de respuesta son siempre los mismos, para no revelar si una cuenta existe.",
+      "Los enlaces de recuperación y de confirmación usan tokens aleatorios de un solo uso; en la base solo se guarda su hash SHA-256 con vencimiento: 30 minutos para recuperar la contraseña y 24 horas para confirmar el correo.",
+      "La sesión es un JWT en una cookie HttpOnly firmada y cifrada; el rol se verifica en el servidor. La suite E2E encontró que, si se pulsaba Salir mientras el panel cargaba, una respuesta en curso volvía a guardar la cookie; el PR 67 hizo que las respuestas en segundo plano ya no la renueven.",
+      "El estudiante puede eliminar su cuenta con todos sus datos, de acuerdo con los derechos de la Ley 25.326, y la importación desde SYSACAD nunca maneja sus credenciales.",
     ],
     html: `
-      ${header("11", "Seguridad", "Responsabilidades nuevas, resueltas con la guía de OWASP")}
+      ${header("12", "Seguridad", "Responsabilidades nuevas, resueltas con la guía de OWASP")}
       <div class="sec-grid">
-        <article class="sec reveal"><h3>Contraseñas</h3><p>Solo <strong>hash bcrypt</strong> con factor 12. Mínimo 10 caracteres con letras y números; máximo 72 bytes.</p></article>
-        <article class="sec reveal"><h3>Fuerza bruta</h3><p><strong>8 intentos por correo</strong> y 30 por cliente cada 15 min; límites de registros por hora y por día.</p></article>
-        <article class="sec reveal"><h3>Sin enumeración</h3><p>Mismo mensaje y <strong>mismo tiempo de respuesta</strong> exista o no la cuenta.</p></article>
-        <article class="sec reveal"><h3>Sesión</h3><p>JWT en <strong>cookie HttpOnly</strong>, firmada y cifrada con un secreto del servidor.</p></article>
+        <article class="sec reveal"><h3>Contraseñas</h3><p>Solo <strong>hash bcrypt</strong> con factor 12; mínimo 10 caracteres, máximo 72 bytes; límites de intentos y <strong>sin enumeración</strong>.</p></article>
+        <article class="sec reveal"><h3>Tokens de un solo uso</h3><p>Recuperación y confirmación: solo el <strong>hash SHA-256</strong>, con vencimiento de 30 min y 24 h.</p></article>
+        <article class="sec reveal"><h3>Sesión</h3><p>JWT en <strong>cookie HttpOnly</strong>; las respuestas en segundo plano ya no la renuevan tras «Salir» (PR #67).</p></article>
         <article class="sec reveal"><h3>Autorización</h3><p>Rol verificado <strong>en el servidor</strong>; la base no es accesible desde el navegador; el registro solo crea estudiantes.</p></article>
+        <article class="sec reveal"><h3>Datos personales</h3><p><strong>Eliminación de la cuenta</strong> con todos sus datos (Ley 25.326); SYSACAD sin credenciales de por medio.</p></article>
         <article class="sec reveal"><h3>Endurecimiento</h3><p>Credenciales fuera del repositorio (PR #16); Next.js 15.5.27 corrige la <strong>CVE-2025-66478</strong> (PR #17).</p></article>
       </div>`,
   },
@@ -432,33 +470,34 @@ export const slides: readonly Slide[] = [
     mode: BackgroundMode.Light,
     seconds: 75,
     notes: [
-      "En calidad, la lógica de dominio se extrajo a funciones puras y, junto con el acceso a datos, se cubre con 244 pruebas de Vitest en 23 archivos; ese es el resultado de la integración continua de main en el commit eb784ab.",
-      "Cubren la conversión GPA, las correlativas, la integridad de cada plan, las reglas del panel, la autenticación, los horarios y el asistente con un modelo simulado. Las pruebas de integración corren contra PGlite, un PostgreSQL en memoria con el mismo esquema que producción.",
-      "Además sumé una suite end-to-end con TesterArmy e2e: 48 pruebas en 7 archivos que recorren el sitio de producción como lo haría un usuario, desde las páginas públicas y el registro hasta los horarios, el asistente y el panel de administración. La corrida final del 16 de octubre pasó 48 de 48. Mientras se armaba, la suite encontró un error real: el mensaje de validación de la nota quedaba detrás del diálogo, y se corrigió en los PR 36 y 37.",
+      "En calidad, la lógica de dominio se extrajo a funciones puras y, junto con el acceso a datos, se cubre con 401 pruebas de Vitest en 37 archivos; ese es el resultado sobre la rama principal en el commit 6c9589a, del PR 67.",
+      "Cubren la conversión GPA, las correlativas, la integridad de cada plan, incluido el 2008, las reglas del panel, la autenticación y el ciclo de vida de la cuenta, los horarios, las dos importaciones, el lector de SYSACAD y el asistente con un modelo simulado. Las pruebas de integración corren contra PGlite, un PostgreSQL en memoria con el mismo esquema que producción.",
+      "Además hay una suite end-to-end con TesterArmy e2e: 78 casos en 13 archivos que recorren el sitio de producción como lo haría un usuario. En la corrida final del 16 de octubre, sobre la versión 6c9589a, aprobaron los 70 casos ejecutables y los 10 de preparación, 80 de 80; los 8 restantes leen correos de una tabla que solo existe fuera de producción y se omiten por diseño. La suite encontró dos defectos reales: el mensaje de una nota inválida oculto detrás del diálogo, y la sesión que seguía activa después de Salir.",
       "Cada pull request pasa por cuatro verificaciones en GitHub Actions: lint, tipos, pruebas y compilación.",
     ],
     html: `
-      ${header("12", "Calidad", "Cada cambio verificado antes de integrarse")}
+      ${header("13", "Calidad", "Cada cambio verificado antes de integrarse")}
       <div class="quality">
         <div class="stats">
-          <div class="stat reveal"><b>244</b><span>pruebas automatizadas (Vitest)</span></div>
-          <div class="stat reveal"><b>23</b><span>archivos de prueba</span></div>
-          <div class="stat reveal"><b>48</b><span>pruebas E2E (TesterArmy e2e) en 7 archivos: 48/48 en producción</span></div>
+          <div class="stat reveal"><b>401</b><span>pruebas automatizadas (Vitest) en 37 archivos</span></div>
+          <div class="stat reveal"><b>78</b><span>casos E2E (TesterArmy e2e) en 13 archivos</span></div>
+          <div class="stat reveal"><b>80/80</b><span>casos y preparaciones aprobados en producción; 8 omitidos por diseño</span></div>
           <div class="stat reveal"><b>4</b><span>verificaciones por PR: Lint · Typecheck · Test · Build</span></div>
         </div>
         <div class="suites reveal">
           <p class="aside-label">Qué se prueba</p>
           <ul class="chips chips-dark">
             <li>Conversión GPA</li><li>Correlativas</li><li>Integridad de los planes</li><li>Reglas del panel</li>
-            <li>Autenticación y límites</li><li>Superposiciones e importación</li><li>Asistente con modelo simulado</li>
+            <li>Autenticación y cuenta</li><li>Superposiciones</li><li>Importaciones y SYSACAD</li><li>Asistente simulado</li>
             <li>Integración con PGlite</li>
           </ul>
-          <p class="aside-label aside-label-gap">Pruebas E2E sobre producción</p>
+          <p class="aside-label aside-label-gap">Casos E2E sobre producción</p>
           <ul class="chips">
-            <li>Páginas públicas · 8</li><li>Autenticación · 8</li><li>Herramientas del estudiante · 6</li><li>Horarios · 10</li>
-            <li>Importar horario · 3</li><li>Asistente · 1</li><li>Administración · 12</li>
+            <li>Públicas · 8</li><li>Autenticación · 8</li><li>Estudiante · 7</li><li>Horarios · 10</li>
+            <li>Importar horario · 3</li><li>Asistente · 1</li><li>Administración · 15</li><li>Recuperación · 7</li>
+            <li>Comisiones · 4</li><li>SYSACAD · 4</li><li>Confirmación · 4</li><li>Baja de cuenta · 4</li><li>Plan 2008 · 3</li>
           </ul>
-          <p class="aside-note">Vitest: CI de <code>main</code> en el commit <code>eb784ab</code> (PR #35). E2E: corrida final del 16/10/2026 sobre https://adhorarium.vercel.app en <code>f2d6d0c</code>, 48 pruebas más 6 de preparación, todas aprobadas.</p>
+          <p class="aside-note">Vitest: rama principal en <code>6c9589a</code> (PR #67). E2E: corrida final del 16/10/2026, 12:12–12:18, sobre https://adhorarium.vercel.app en <code>6c9589a</code>: 70 casos y 10 preparaciones aprobados, 0 fallas, 319 s. Dos defectos reales encontrados (PR #36–#37 y #67).</p>
         </div>
       </div>`,
   },
@@ -466,58 +505,59 @@ export const slides: readonly Slide[] = [
     id: "metodologia",
     title: "Metodología e historial",
     mode: BackgroundMode.Light,
-    seconds: 60,
+    seconds: 55,
     notes: [
       "La metodología fue iterativa e incremental con prácticas ágiles, documentada con UML, usando las fases del Proceso Unificado como marco para ordenar los artefactos. Al ser un proyecto individual no hubo ceremonias formales.",
-      "Cada incremento se hizo en una rama propia y entró a main por pull request, con integración continua y despliegue continuo en Vercel. El historial registra 48 pull requests, 46 de ellos integrados.",
-      "La versión 1 es de junio de 2025, con Supabase. Tras una pausa larga, en octubre de 2026 se endureció el proyecto, se migró a Neon, Drizzle y Auth.js, y se sumaron la identidad visual, el asistente, el ingreso con contraseña y el gestor de horarios. El 16 de octubre se agregó la suite E2E y una ronda de correcciones de accesibilidad y de interfaz.",
+      "Cada incremento se hizo en una rama propia y entró a main por pull request, con integración continua y despliegue continuo en Vercel. El historial registra 67 pull requests, 65 de ellos integrados.",
+      "La versión 1 es de junio de 2025, con Supabase. Tras una pausa larga, en octubre de 2026 se endureció el proyecto, se migró a Neon, Drizzle y Auth.js, y se sumaron la identidad visual, el asistente, el ingreso con contraseña y el gestor de horarios. El 16 de octubre llegaron la suite E2E y la auditoría de calidad, y después el ciclo de vida de la cuenta, los horarios oficiales, la importación desde SYSACAD y el plan 2008 con las electivas.",
     ],
     html: `
-      ${header("13", "Metodología e historial", "Iterativo e incremental, un pull request por incremento")}
+      ${header("14", "Metodología e historial", "Iterativo e incremental, un pull request por incremento")}
       <div class="method-tags reveal">
         <span class="pill">Prácticas ágiles</span><span class="pill">UML</span><span class="pill">Fases del Proceso Unificado como marco</span>
-        <span class="pill">Ramas feat/ · fix/ · chore/</span><span class="pill pill-brass">48 pull requests · 46 integrados</span>
+        <span class="pill">Ramas feat/ · fix/ · chore/</span><span class="pill pill-brass">67 pull requests · 65 integrados</span>
       </div>
       <ol class="timeline">
         <li class="reveal"><time>May–jun 2025</time><h4>Versión 1</h4><p>Prototipo inicial y PR #1–#14: planes, mesas, gestor de materias, perfil GPA. Supabase.</p></li>
         <li class="reveal tl-pause"><time>Jun 2025 – sep 2026</time><h4>Pausa</h4><p>Al retomar: credenciales versionadas y despliegues fallidos desde el 05/09/2026.</p></li>
-        <li class="reveal"><time>Oct 2026</time><h4>Endurecimiento</h4><p>PR #16–#19: credenciales, Next.js 15.5.27, cero errores de tipos, ESLint.</p></li>
-        <li class="reveal"><time>14/10/2026</time><h4>Versión 2</h4><p>PR #22–#27: Neon + Drizzle, Auth.js v5, panel de administración.</p></li>
+        <li class="reveal"><time>13–14/10/2026</time><h4>Versión 2</h4><p>PR #16–#27: endurecimiento, Neon + Drizzle, Auth.js v5, panel de administración.</p></li>
         <li class="reveal"><time>15/10/2026</time><h4>Versiones 2.1 – 2.3</h4><p>PR #28–#35: identidad visual, asistente, correo + contraseña, gestor de horarios.</p></li>
-        <li class="reveal"><time>16/10/2026</time><h4>Calidad</h4><p>PR #36–#48: suite E2E, accesibilidad, página 404, menú móvil y correcciones.</p></li>
+        <li class="reveal"><time>16/10 · madrugada</time><h4>Versión 2.4</h4><p>PR #36–#48: suite E2E, accesibilidad, página 404 y correcciones.</p></li>
+        <li class="reveal"><time>16/10 · mañana</time><h4>Versiones 2.5 – 2.8</h4><p>PR #49–#67: cuenta, horarios oficiales, SYSACAD, plan 2008 y electivas.</p></li>
       </ol>`,
   },
   {
     id: "resultados",
     title: "Resultados",
     mode: BackgroundMode.Light,
-    seconds: 50,
+    seconds: 55,
     notes: [
-      "Como resultado, AdHorarium está en producción en adhorarium.vercel.app, con los veinte casos de uso implementados y todos los módulos habilitados.",
-      "La base tiene 195 materias y 735 correlatividades de cinco carreras, verificadas en producción, más las tres mesas de examen. Los planes se cargan con scripts reproducibles desde archivos versionados, y eso permitió reconstruir la base al migrar de proveedor.",
+      "Como resultado, AdHorarium está en producción en adhorarium.vercel.app, con los veinticinco casos de uso implementados y todos los módulos habilitados.",
+      "La base tiene 288 materias y 1244 correlatividades de seis planes, verificadas en producción, más las tres mesas de examen y 203 comisiones oficiales de Sistemas. Los planes se cargan con scripts reproducibles desde archivos versionados, y cada materia del plan 2008 y de las electivas indica el documento oficial del que se leyó.",
       "Funciona en celular y en computadora, con modo claro y oscuro.",
     ],
     html: `
-      ${header("14", "Resultados", "En producción, con datos reales de cinco carreras")}
+      ${header("15", "Resultados", "En producción, con datos reales de seis planes")}
       <div class="results">
         <div class="results-main">
           <div class="stats stats-row">
-            <div class="stat reveal"><b>195</b><span>materias</span></div>
-            <div class="stat reveal"><b>735</b><span>correlatividades</span></div>
-            <div class="stat reveal"><b>5</b><span>carreras</span></div>
-            <div class="stat reveal"><b>20</b><span>casos de uso</span></div>
+            <div class="stat reveal"><b>288</b><span>materias</span></div>
+            <div class="stat reveal"><b>1244</b><span>correlatividades</span></div>
+            <div class="stat reveal"><b>203</b><span>comisiones oficiales</span></div>
+            <div class="stat reveal"><b>25</b><span>casos de uso</span></div>
           </div>
           <table class="careers reveal">
-            <thead><tr><th>Carrera</th><th>Materias</th><th>Correlatividades</th></tr></thead>
+            <thead><tr><th>Carrera · plan</th><th>Materias</th><th>Correlatividades</th><th>Comisiones</th></tr></thead>
             <tbody>
-              <tr><td>Ingeniería en Sistemas de Información</td><td>36</td><td>73</td></tr>
-              <tr><td>Ingeniería Electrónica</td><td>37</td><td>118</td></tr>
-              <tr><td>Ingeniería Civil</td><td>41</td><td>259</td></tr>
-              <tr><td>Ingeniería Mecánica</td><td>40</td><td>132</td></tr>
-              <tr><td>Ingeniería en Energía Eléctrica</td><td>41</td><td>153</td></tr>
+              <tr><td>Sistemas de Información · 2023</td><td>65</td><td>248</td><td>173</td></tr>
+              <tr><td>Sistemas de Información · 2008</td><td>64</td><td>334</td><td>30</td></tr>
+              <tr><td>Electrónica · 2025a</td><td>37</td><td>118</td><td>0</td></tr>
+              <tr><td>Civil · 2023</td><td>41</td><td>259</td><td>0</td></tr>
+              <tr><td>Mecánica · 2023</td><td>40</td><td>132</td><td>0</td></tr>
+              <tr><td>Energía Eléctrica · 2023</td><td>41</td><td>153</td><td>0</td></tr>
             </tbody>
           </table>
-          <p class="aside-note reveal">Valores verificados en producción el 15/10/2026 · ${PROD_HOST}</p>
+          <p class="aside-note reveal">Sistemas incluye 28 electivas por plan · valores verificados en producción el 16/10/2026 · ${PROD_HOST}</p>
         </div>
         <div class="phones reveal">
           ${card("dashboard-movil", "Plan de correlativas en un teléfono", "phone")}
@@ -531,18 +571,19 @@ export const slides: readonly Slide[] = [
     mode: BackgroundMode.Light,
     seconds: 50,
     notes: [
-      "Quiero ser claro con las limitaciones. La más importante: no hay una fuente digital de los horarios oficiales de cursado, así que el catálogo de comisiones de producción tiene solo cinco comisiones de ejemplo, con días y aulas ficticios. El gestor y el asistente van a usar los horarios oficiales sin cambios de código cuando se carguen.",
-      "Tampoco hay recuperación de contraseña ni verificación de correo, ni fechas de mesas, y el asistente sugiere combinaciones pero no arma el horario solo.",
-      "Como trabajo futuro: cargar los horarios oficiales, sumar recuperación de contraseña y verificación de correo, evaluar Argon2id que es la primera opción de OWASP, incorporar las fechas de mesas, generar combinaciones sin superposiciones y extender a otras especialidades.",
+      "Quiero ser claro con las limitaciones. La más visible: en producción todavía no están configuradas las variables del proveedor de correo, así que los correos de recuperación y de confirmación no se envían; el código está listo y probado.",
+      "Solo Sistemas tiene horarios oficiales cargados; las demás carreras no tienen comisiones. La extensión se descarga desde el sitio, no está en las tiendas. No hay fechas de mesas, y el asistente sugiere combinaciones pero no arma el horario solo.",
+      "Como trabajo futuro: configurar el correo y Speed Insights, publicar la extensión, cargar los horarios de las demás carreras y actualizar los de cada cuatrimestre con la importación, evaluar Argon2id que es la primera opción de OWASP, incorporar las fechas de mesas, generar combinaciones sin superposiciones y extender a otras especialidades.",
     ],
     html: `
-      ${header("15", "Limitaciones y trabajo futuro", "Lo que falta, dicho con claridad")}
+      ${header("16", "Limitaciones y trabajo futuro", "Lo que falta, dicho con claridad")}
       <div class="limits">
         <section class="limit-col reveal">
           <h3>Limitaciones actuales</h3>
           <ul>
-            <li><strong>Catálogo de comisiones de ejemplo</strong>: 5 comisiones con días, horas y aulas ficticios.</li>
-            <li>Sin recuperación de contraseña ni verificación del correo.</li>
+            <li><strong>Correos sin enviar</strong>: falta configurar el proveedor en producción.</li>
+            <li>Horarios oficiales solo de <strong>Sistemas</strong>.</li>
+            <li>Extensión descargable, fuera de las tiendas.</li>
             <li>Sin fechas de las mesas de examen.</li>
             <li>El asistente sugiere combinaciones; el estudiante elige cada comisión.</li>
           </ul>
@@ -550,8 +591,8 @@ export const slides: readonly Slide[] = [
         <section class="limit-col limit-future reveal">
           <h3>Trabajo futuro</h3>
           <ul>
-            <li>Cargar los <strong>horarios oficiales</strong> de cursado de la Facultad.</li>
-            <li>Recuperación de contraseña y verificación del correo.</li>
+            <li>Configurar el <strong>correo</strong> y Speed Insights; publicar la extensión.</li>
+            <li>Horarios de las demás carreras, actualizados <strong>cada cuatrimestre</strong>.</li>
             <li>Migrar el hash a <strong>Argon2id</strong>, primera opción de OWASP.</li>
             <li>Fechas de cada mesa de examen.</li>
             <li>Combinaciones de comisiones sin superposiciones generadas automáticamente.</li>
@@ -564,19 +605,20 @@ export const slides: readonly Slide[] = [
     id: "conclusiones",
     title: "Conclusiones",
     mode: BackgroundMode.Light,
-    seconds: 70,
+    seconds: 65,
     notes: [
-      "Para cerrar: AdHorarium cumple el objetivo de reunir en una aplicación web el plan de correlativas, la situación de cada estudiante, las mesas y el armado del horario, con datos administrables.",
-      "Me llevo cinco aprendizajes. Primero, la dependencia de servicios externos es un riesgo real: tres riesgos se materializaron, y tener los planes versionados permitió reconstruir la base. Segundo, concentrar datos y autorización en el servidor simplifica la seguridad. Tercero, un modelo de lenguaje es útil si se lo ancla en datos calculados por código. Cuarto, la autenticación también es una decisión de operación. Y quinto, separar el dominio de la interfaz es lo que habilita la verificación automática.",
+      "Para cerrar: AdHorarium cumple el objetivo de reunir en una aplicación web el plan de correlativas, la situación de cada estudiante, las mesas y el armado del horario, con datos administrables. Hoy el catálogo tiene los horarios oficiales de Sistemas en sus planes 2023 y 2008, y el estudiante puede traer su estado académico desde SYSACAD sin cargarlo a mano.",
+      "Me llevo seis aprendizajes. Primero, la dependencia de servicios externos es un riesgo real: tres riesgos se materializaron, y tener los planes versionados permitió reconstruir la base. Segundo, concentrar datos y autorización en el servidor simplifica la seguridad. Tercero, un modelo de lenguaje es útil si se lo ancla en datos calculados por código. Cuarto, la autenticación también es una decisión de operación. Quinto, separar el dominio de la interfaz habilita la verificación automática, y permitió compartir un único lector de SYSACAD entre la página y la extensión. Y sexto, los datos oficiales también hay que validarlos: importarlos con vista previa, con su fuente y dejando fuera lo ambiguo fue más confiable que transcribirlos a mano.",
     ],
     html: `
-      ${header("16", "Conclusiones", "Cinco aprendizajes del proyecto")}
+      ${header("17", "Conclusiones", "Seis aprendizajes del proyecto")}
       <ol class="lessons">
         <li class="reveal"><b>01</b><div><h3>La dependencia externa es un riesgo real</h3><p>Tres riesgos se materializaron; los planes versionados permitieron reconstruir la base en otro proveedor.</p></div></li>
         <li class="reveal"><b>02</b><div><h3>Datos y autorización en el servidor</h3><p>Pasar de RLS en el navegador a Server Actions con rol verificado redujo la superficie expuesta.</p></div></li>
         <li class="reveal"><b>03</b><div><h3>IA anclada en datos calculados</h3><p>Lo exacto lo calcula el código; el modelo solo lo explica.</p></div></li>
-        <li class="reveal"><b>04</b><div><h3>Autenticar también es operar</h3><p>Las contraseñas trajeron hash, límites de intentos y mensajes neutros, cubiertos con pruebas.</p></div></li>
-        <li class="reveal"><b>05</b><div><h3>Dominio separado de la interfaz</h3><p>Funciones puras probadas en cada PR dan confianza para cambiar tras pausas largas.</p></div></li>
+        <li class="reveal"><b>04</b><div><h3>Autenticar también es operar</h3><p>Contraseñas, tokens y baja de cuenta trajeron hash, límites y mensajes neutros, cubiertos con pruebas.</p></div></li>
+        <li class="reveal"><b>05</b><div><h3>Dominio separado de la interfaz</h3><p>Funciones puras probadas en cada PR; un único lector de SYSACAD para la página y la extensión.</p></div></li>
+        <li class="reveal"><b>06</b><div><h3>Los datos oficiales también se validan</h3><p>PDF con abreviaturas y páginas contradictorias: vista previa, fuente de cada dato y fuera lo ambiguo.</p></div></li>
       </ol>`,
   },
   {
