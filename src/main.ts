@@ -40,7 +40,7 @@ if (isStatic) {
 
 const PAGE_RULES: Partial<Record<ViewMode, string>> = {
   [ViewMode.Print]: "@page { size: 1920px 1080px; margin: 0; }",
-  [ViewMode.Script]: "@page { size: A4; margin: 16mm 0 14mm; }",
+  [ViewMode.Script]: "@page { size: A4; margin: 16mm 18mm 16mm; }",
 };
 const pageRule = PAGE_RULES[viewMode];
 if (pageRule) {

@@ -1976,3 +1976,14 @@ html[data-static="true"] .bg-fallback > div,
 html[data-static="true"] .bg-canvas {
   transition: none !important;
 }
+
+html[data-view="script"],
+html[data-view="print"] {
+  background: #fff;
+}
+
+html[data-view="script"] .script-root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
