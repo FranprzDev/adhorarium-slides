@@ -39,8 +39,6 @@ function bullets(items: readonly string[], className = ""): string {
 
 const LOGO_MARK = `<img class="mark" src="brand/adhorarium-mark.svg" alt="" />`;
 
-export const E2E_STATUS_LINE = "Suite E2E con TesterArmy e2e en construcción: no incluida en estos resultados.";
-
 export const slides: readonly Slide[] = [
   {
     id: "portada",
@@ -183,7 +181,7 @@ export const slides: readonly Slide[] = [
     id: "demo-plan",
     title: "Plan de correlativas y gestor de materias",
     mode: BackgroundMode.Light,
-    seconds: 115,
+    seconds: 100,
     notes: [
       "Empiezo por el corazón del sistema. El plan de correlativas se muestra por niveles, y se puede consultar sin registrarse, eligiendo la carrera.",
       "Al tocar una materia se ve qué necesita para cursarse y qué materias habilita. En la captura, Paradigmas de Programación: necesita Lógica y Algoritmos y habilita Desarrollo de Software, Diseño de Sistemas e Ingeniería y Calidad de Software.",
@@ -432,11 +430,12 @@ export const slides: readonly Slide[] = [
     id: "calidad",
     title: "Calidad",
     mode: BackgroundMode.Light,
-    seconds: 60,
+    seconds: 75,
     notes: [
       "En calidad, la lógica de dominio se extrajo a funciones puras y, junto con el acceso a datos, se cubre con 244 pruebas de Vitest en 23 archivos; ese es el resultado de la integración continua de main en el commit eb784ab.",
       "Cubren la conversión GPA, las correlativas, la integridad de cada plan, las reglas del panel, la autenticación, los horarios y el asistente con un modelo simulado. Las pruebas de integración corren contra PGlite, un PostgreSQL en memoria con el mismo esquema que producción.",
-      "Cada pull request pasa por cuatro verificaciones en GitHub Actions: lint, tipos, pruebas y compilación. Además los flujos principales se recorrieron sobre producción con cuentas de prueba por rol.",
+      "Además sumé una suite end-to-end con TesterArmy e2e: 48 pruebas en 7 archivos que recorren el sitio de producción como lo haría un usuario, desde las páginas públicas y el registro hasta los horarios, el asistente y el panel de administración. La corrida final del 16 de octubre pasó 48 de 48. Mientras se armaba, la suite encontró un error real: el mensaje de validación de la nota quedaba detrás del diálogo, y se corrigió en los PR 36 y 37.",
+      "Cada pull request pasa por cuatro verificaciones en GitHub Actions: lint, tipos, pruebas y compilación.",
     ],
     html: `
       ${header("12", "Calidad", "Cada cambio verificado antes de integrarse")}
@@ -444,6 +443,7 @@ export const slides: readonly Slide[] = [
         <div class="stats">
           <div class="stat reveal"><b>244</b><span>pruebas automatizadas (Vitest)</span></div>
           <div class="stat reveal"><b>23</b><span>archivos de prueba</span></div>
+          <div class="stat reveal"><b>48</b><span>pruebas E2E (TesterArmy e2e) en 7 archivos: 48/48 en producción</span></div>
           <div class="stat reveal"><b>4</b><span>verificaciones por PR: Lint · Typecheck · Test · Build</span></div>
         </div>
         <div class="suites reveal">
@@ -453,8 +453,12 @@ export const slides: readonly Slide[] = [
             <li>Autenticación y límites</li><li>Superposiciones e importación</li><li>Asistente con modelo simulado</li>
             <li>Integración con PGlite</li>
           </ul>
-          <p class="aside-note">Resultado de la CI de <code>main</code> en el commit <code>eb784ab</code> (PR #35). Flujos principales recorridos además sobre producción con cuentas de prueba por rol.</p>
-          <p class="aside-note e2e-line">${E2E_STATUS_LINE}</p>
+          <p class="aside-label aside-label-gap">Pruebas E2E sobre producción</p>
+          <ul class="chips">
+            <li>Páginas públicas · 8</li><li>Autenticación · 8</li><li>Herramientas del estudiante · 6</li><li>Horarios · 10</li>
+            <li>Importar horario · 3</li><li>Asistente · 1</li><li>Administración · 12</li>
+          </ul>
+          <p class="aside-note">Vitest: CI de <code>main</code> en el commit <code>eb784ab</code> (PR #35). E2E: corrida final del 16/10/2026 sobre https://adhorarium.vercel.app en <code>f2d6d0c</code>, 48 pruebas más 6 de preparación, todas aprobadas.</p>
         </div>
       </div>`,
   },
@@ -465,14 +469,14 @@ export const slides: readonly Slide[] = [
     seconds: 60,
     notes: [
       "La metodología fue iterativa e incremental con prácticas ágiles, documentada con UML, usando las fases del Proceso Unificado como marco para ordenar los artefactos. Al ser un proyecto individual no hubo ceremonias formales.",
-      "Cada incremento se hizo en una rama propia y entró a main por pull request, con integración continua y despliegue continuo en Vercel. El historial registra 35 pull requests.",
-      "La versión 1 es de junio de 2025, con Supabase. Tras una pausa larga, en octubre de 2026 se endureció el proyecto, se migró a Neon, Drizzle y Auth.js, y se sumaron la identidad visual, el asistente, el ingreso con contraseña y el gestor de horarios.",
+      "Cada incremento se hizo en una rama propia y entró a main por pull request, con integración continua y despliegue continuo en Vercel. El historial registra 48 pull requests, 46 de ellos integrados.",
+      "La versión 1 es de junio de 2025, con Supabase. Tras una pausa larga, en octubre de 2026 se endureció el proyecto, se migró a Neon, Drizzle y Auth.js, y se sumaron la identidad visual, el asistente, el ingreso con contraseña y el gestor de horarios. El 16 de octubre se agregó la suite E2E y una ronda de correcciones de accesibilidad y de interfaz.",
     ],
     html: `
       ${header("13", "Metodología e historial", "Iterativo e incremental, un pull request por incremento")}
       <div class="method-tags reveal">
         <span class="pill">Prácticas ágiles</span><span class="pill">UML</span><span class="pill">Fases del Proceso Unificado como marco</span>
-        <span class="pill">Ramas feat/ · fix/ · chore/</span><span class="pill pill-brass">35 pull requests</span>
+        <span class="pill">Ramas feat/ · fix/ · chore/</span><span class="pill pill-brass">48 pull requests · 46 integrados</span>
       </div>
       <ol class="timeline">
         <li class="reveal"><time>May–jun 2025</time><h4>Versión 1</h4><p>Prototipo inicial y PR #1–#14: planes, mesas, gestor de materias, perfil GPA. Supabase.</p></li>
@@ -480,6 +484,7 @@ export const slides: readonly Slide[] = [
         <li class="reveal"><time>Oct 2026</time><h4>Endurecimiento</h4><p>PR #16–#19: credenciales, Next.js 15.5.27, cero errores de tipos, ESLint.</p></li>
         <li class="reveal"><time>14/10/2026</time><h4>Versión 2</h4><p>PR #22–#27: Neon + Drizzle, Auth.js v5, panel de administración.</p></li>
         <li class="reveal"><time>15/10/2026</time><h4>Versiones 2.1 – 2.3</h4><p>PR #28–#35: identidad visual, asistente, correo + contraseña, gestor de horarios.</p></li>
+        <li class="reveal"><time>16/10/2026</time><h4>Calidad</h4><p>PR #36–#48: suite E2E, accesibilidad, página 404, menú móvil y correcciones.</p></li>
       </ol>`,
   },
   {

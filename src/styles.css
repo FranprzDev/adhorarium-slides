@@ -1987,3 +1987,42 @@ html[data-view="script"] .script-root {
   margin: 0;
   padding: 0;
 }
+
+.aside-label-gap {
+  margin-top: 30px !important;
+}
+
+.quality .stats {
+  gap: 16px;
+}
+
+.quality .stat {
+  padding: 16px 28px;
+}
+
+.quality .stat b {
+  font-size: 84px;
+  min-width: 160px;
+}
+
+.quality .stat span {
+  font-size: 24px;
+}
+
+.timeline {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+}
+
+.timeline h4 {
+  font-size: 29px;
+}
+
+.timeline p {
+  font-size: 23px;
+}
+
+.notes-head strong,
+.pv-body strong {
+  color: var(--brass-light);
+}
