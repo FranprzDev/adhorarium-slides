@@ -8,7 +8,7 @@ de la UTN**, final project of the *Seminario Integrador* course at UTN Facultad 
 
 ## Features
 
-- 18 slides on a fixed 1920 × 1080 stage scaled to any screen (16:9, letterboxed).
+- 19 slides on a fixed 1920 × 1080 stage scaled to any screen (16:9, letterboxed).
 - Animated background rendered with [vgpu](https://vgpu.sh) (WebGPU): a WGSL shader with a navy/brass flow field and a
   timetable grid whose cells light up like booked slots. It blends between a dark hero look (cover, closing slide) and a
   quiet paper look behind content slides.
@@ -58,6 +58,7 @@ npx serve dist
 
 ## Sources
 
-Every figure in the deck comes from the project documentation (habilitación document and user manual) and real
-production screenshots of the app taken on 15/10/2026. The commission catalog shown is the example data described in
-the documentation.
+Every figure in the deck comes from the project documentation (habilitación document, user manual and E2E test
+manual) and real production screenshots of the app taken on 16/10/2026 with the official 2nd-term 2026 commissions of
+the Systems Engineering department. The SysAcad screenshots use the anonymized fixture from the app repository
+("Alumno, Ejemplo", invented grades, years and record numbers).

@@ -1261,18 +1261,23 @@ strong {
 
 .careers th {
   text-align: left;
-  font-size: 18px;
-  letter-spacing: 0.1em;
+  font-size: 16px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #e8ecf5;
   background: var(--navy);
-  padding: 12px 22px;
+  padding: 12px 18px;
+  white-space: nowrap;
   font-weight: 600;
 }
 
 .careers td {
-  padding: 10px 22px;
+  padding: 10px 18px;
   border-top: 1px solid var(--line);
+}
+
+.careers td:first-child {
+  white-space: nowrap;
 }
 
 .careers td:not(:first-child),
@@ -1373,7 +1378,7 @@ strong {
   border: 1px solid var(--line);
 }
 
-.lessons li:last-child {
+.lessons li:last-child:nth-child(odd) {
   grid-column: 1 / -1;
 }
 
@@ -2025,4 +2030,16 @@ html[data-view="script"] .script-root {
 .notes-head strong,
 .pv-body strong {
   color: var(--brass-light);
+}
+
+.stack .stack-front-wide {
+  width: 64%;
+}
+
+.quality .stat b {
+  min-width: 250px;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
